@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Mouse",
+    "price": 599,
+    "inStock": true,
+    "category": "Electronics",
+    "rating": 4.3,
+    "brand": "Logitech",
+    "description": "A comfortable wireless mouse with ergonomic grip and long battery life."
+  },
+  {
+    "id": 2,
+    "name": "Bluetooth Speaker",
+    "price": 1299,
+    "inStock": true,
+    "category": "Audio",
+    "rating": 4.7,
+    "brand": "Boat",
+    "description": "Portable speaker with deep bass and 8-hour playback time."
+  },
+  {
+    "id": 3,
+    "name": "Running Shoes",
+    "price": 2399,
+    "inStock": false,
+    "category": "Footwear",
+    "rating": 4.1,
+    "brand": "Nike",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  },
+  {
+    "id": 4,
+    "name": "Laptop Stand",
+    "price": 799,
+    "inStock": true,
+    "category": "Accessories",
+    "rating": 4.5,
+    "brand": "AmazonBasics",
+    "description": "Adjustable laptop stand with cooling support and cable management."
+  },
+  {
+    "id": 5,
+    "name": "Smart LED Bulb",
+    "price": 399,
+    "inStock": true,
+    "category": "Home",
+    "rating": 4,
+    "brand": "Philips",
+    "description": "WiFi-enabled smart bulb compatible with Alexa and Google Assistant."
+  },
+  {
+    "id": 7,
+    "name": "Walking Shoes",
+    "inStocl": true,
+    "category": "footwear",
+    "rating": 4.5,
+    "brand": "Addidas",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  },
+  {
+    "id": 7,
+    "name": "Walking Shoes",
+    "inStocl": true,
+    "category": "footwear",
+    "rating": 4.5,
+    "brand": "Addidas",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  },
+  {
+    "id": 8,
+    "name": "Walking Shoes",
+    "inStocl": true,
+    "category": "footwear",
+    "rating": 4.5,
+    "brand": "Addidas",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  },
+  {
+    "id": 8,
+    "name": "Walking Shoes",
+    "inStocl": true,
+    "category": "footwear",
+    "rating": 4.5,
+    "brand": "Addidas",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  },
+  {
+    "id": 8,
+    "name": "Walking Shoes",
+    "inStocl": true,
+    "category": "footwear",
+    "rating": 4.5,
+    "brand": "Addidas",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  },
+  {
+    "id": 8,
+    "name": "Walking Shoes",
+    "inStocl": true,
+    "category": "footwear",
+    "rating": 4.5,
+    "brand": "Addidas",
+    "description": "Lightweight and durable shoes for everyday jogging and exercise."
+  }
+]
