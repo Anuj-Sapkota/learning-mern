@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   stock: {
-    type: String,
+    type: Number,
     max: [1000, "Stock limit reached! Cannot exceed 1000 stocks."],
   },
   imageUrls: {

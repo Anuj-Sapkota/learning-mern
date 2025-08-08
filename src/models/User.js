@@ -33,11 +33,18 @@ const userSchema = new mongoose.Schema({
   address: {
     city: {
       type: String,
-      required: [true, "City cannot be empty!"],
+      required: [true, "Shipping address city is required."],
     },
     country: {
       type: String,
       default: "Nepal",
+    },
+    province: {
+      type: String,
+      required: [true, "Shipping address province is required."],
+    },
+    street: {
+      type: String,
     },
   },
   phone: {
