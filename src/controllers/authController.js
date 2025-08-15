@@ -1,13 +1,12 @@
 import authService from "../services/authService.js";
-import { createJwt, verifyJwt } from "../utils/jwt.js";
-
+import {createJwt} from '../utils/jwt.js'
 const loginUser = async (req, res) => {
   try {
     const input = req.body;
     const loggedInUser = await authService.login(input);
 
     const authToken = createJwt(loggedInUser);
-    res.cookie("authToken", authToken, {maxAge: 86400 * 1000});
+    res.cookie("authToken", authToken, { maxAge: 86400 * 1000 });
 
     return res.status(201).json(loggedInUser);
   } catch (error) {
@@ -25,8 +24,8 @@ const registerUser = async (req, res) => {
       return res.status(400).send("Passwords do not match!");
     }
     const registeredUser = await authService.register(input);
-        const authToken = createJwt(registeredUser);
-    res.cookie("authToken", authToken, {maxAge: 86400 * 1000});
+    const authToken = createJwt(registeredUser);
+    res.cookie("authToken", authToken, { maxAge: 86400 * 1000 });
 
     res.status(201).json(registeredUser);
   } catch (error) {

@@ -1,64 +1,103 @@
+import { ADMIN } from "../constants/roles.js";
 import productModel from "../models/Product.js";
+import Product from "../models/Product.js";
+import uploadFile from "../utils/file.js";
 
-const getProduct = async (query) => {
+const createProduct = async (data, files, createdBy) => {
+  const uploadedFiles = await uploadFile(files);
+
+  const createdProduct = await productModel.create({
+    ...data,
+    createdBy,
+    imageUrls: uploadedFiles.map((item) => item?.url),
+  });
+
+  return createdProduct;
+};
+
+const deleteProduct = async (id, user) => {
+  const product = await getProductById(id);
+
+  if (product.createdBy != user._id && !user.roles.includes(ADMIN)) {
+    throw {
+      statusCode: 403,
+      message: "Access denied.",
+    };
+  }
+
+  await Product.findByIdAndDelete(id);
+};
+
+const getProductById = async (id) => {
+  const product = await productModel.findById(id);
+
+  if (!product) {
+    throw {
+      statusCode: 404,
+      message: "Product not found.",
+    };
+  }
+
+  if (product.stock < 1) {
+    throw {
+      message: "Product not available",
+    };
+  }
+
+  return product;
+};
+
+const getProducts = async (query) => {
+  const { brands, category, min, max, limit, name, offset, createdBy } = query;
+
   const sort = JSON.parse(query.sort || "{}");
-  const { limit, offset, brands, category, min, max, name } = query;
   const filters = {};
 
-  if (brands) {
-    const brandItems = brands.split(",");
-    filters.brand = { $in: brandItems };
-  }
+  if (brands) filters.brand = { $in: brands.split(",") };
   if (category) filters.category = category;
   if (min) filters.price = { $gte: min };
   if (max) filters.price = { ...filters.price, $lte: max };
-  if (name) filters.name = { $regex: name, $options: "i"}
-  const getProduct = await productModel
+  if (name) filters.name = { $regex: name, $options: "i" };
+
+  if (createdBy) filters.createdBy = createdBy;
+
+  const products = await productModel
     .find(filters)
     .sort(sort)
     .limit(limit)
     .skip(offset);
-  return getProduct;
+
+  return products;
 };
 
-const createProduct = async (data, createdBy) => {
-  const createdData = await productModel.create({
-    ...data,
-    createdBy,
-  });
-  return createdData;
-};
-const getProductById = async (id) => {
-  const product = await productModel.findById(id);
-  if (!product) throw { statusCode: 404, message: "Product not found." };
-  return product;
-};
-const updateProduct = async (id, data, userId) => {
+const updateProduct = async (id, data, files, user) => {
   const product = await getProductById(id);
 
-  if (product.createdBy.toString() !== userId.toString()) {
-    throw { statusCode: 403, message: "Access Denied." };
+  if (product.createdBy != user._id && !user.roles.includes(ADMIN)) {
+    throw {
+      statusCode: 403,
+      message: "Access denied.",
+    };
   }
 
-  const updatedData = await productModel.findByIdAndUpdate(id, data, {
+  const updateData = data;
+
+  if (files && files.length > 0) {
+    const uploadedFiles = await uploadFile(files);
+    updateData.imageUrls = uploadedFiles.map((item) => item?.url);
+  }
+
+  const updatedProduct = await productModel.findByIdAndUpdate(id, updateData, {
     new: true,
   });
-  return updatedData;
-};
-const deleteProduct = async (id, userId) => {
-  const product = await getProductById(id);
 
-  if (product.createdBy.toString() !== userId.toString()) {
-    throw { statusCode: 403, message: "Access Denied." };
-  }
-
-  const deletedData = await productModel.findByIdAndDelete(id);
-  return deletedData;
+  return updatedProduct;
 };
+
 export default {
-  getProduct,
-  getProductById,
   createProduct,
-  updateProduct,
   deleteProduct,
+  getProductById,
+  getProducts,
+  updateProduct,
 };
