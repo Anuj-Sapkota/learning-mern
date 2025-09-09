@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
   },
+  description: String,
   price: {
     type: Number,
     min: [1, "Price must be a positive number."],
@@ -24,7 +25,7 @@ const productSchema = new mongoose.Schema({
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true
+    required: true,
   },
   stock: {
     type: Number,

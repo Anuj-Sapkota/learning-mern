@@ -2,6 +2,7 @@ import authService from "../services/authService.js";
 import {createJwt} from '../utils/jwt.js'
 const loginUser = async (req, res) => {
   try {
+    console.log("Controller reached......");
     const input = req.body;
     const loggedInUser = await authService.login(input);
 
@@ -32,5 +33,13 @@ const registerUser = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
+
+const forgotPassword = async (req, res) => {
+  const input = req.body;
+
+  if (!input.email) {
+    return res.status()
+  }
+}
 
 export default { registerUser, loginUser };

@@ -6,10 +6,19 @@ import { ADMIN } from "../constants/roles.js";
 
 const router = express.Router();
 
-router.get("/", auth, roleBasedAuth(ADMIN), orderController.getOrders);
+router.get("/", roleBasedAuth(ADMIN), orderController.getOrders);
 
-router.post("/", auth, orderController.createOrder);
+// URL: /api/orders/user
+router.get("/user", orderController.getOrdersByUser);
 
-router.delete("/:id", auth, roleBasedAuth(ADMIN), orderController.deleteOrder);
+router.get("/:id", roleBasedAuth(ADMIN), orderController.getOrderById);
+
+router.post("/", orderController.createOrder);
+
+router.put("/:id", orderController.updateOrder);
+
+router.delete("/:id", orderController.deleteOrder);
+
+router.post("/:id/payment", orderController.orderPayment);
 
 export default router;

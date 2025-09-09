@@ -13,5 +13,13 @@ const config = {
     apiKey: process.env.API_KEY || "",
     apiSecret: process.env.API_SECRET || "",
   },
+  khalti: {
+    apiKey: process.env.KHALTI_API_KEY || "",
+    apiUrl: process.env.KHALTI_API_URL || "",
+  },
+  gemini: {
+    apiUrl: process.env.GEMINI_API_URL ||"",
+    apiKey: process.env.GEMINI_API_KEY || "",
+  },
 };
 export default config;

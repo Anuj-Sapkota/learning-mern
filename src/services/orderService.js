@@ -1,5 +1,6 @@
 import orderModel from "../models/Order.js";
-
+import payment from "../utils/payment.js";
+import crypto from "crypto";
 const getOrders = async () => {
   const orders = await orderModel
     .find()
@@ -19,11 +20,12 @@ const createOrder = async (data, user) => {
 };
 
 const getOrderById = async (id) => {
-  const order = await orderModel.findById(id)
+  console.log(id)
+  const order = await orderModel
+    .findById(id)
     .populate("orderItems.product")
-    .populate("user", ["name", "email", "phone", "address"])
-    .populate("payment");
-
+    .populate("user", ["name", "email", "phone", "address"]);
+console.log(order);
   if (!order) {
     throw {
       statusCode: 404,
@@ -32,6 +34,15 @@ const getOrderById = async (id) => {
   }
 
   return order;
+};
+const getOrdersByUser = async (userId) => {
+  const orders = await orderModel
+    .find({ user: userId })
+    .populate("orderItems.product")
+    .populate("user", ["name", "email", "phone", "address"])
+    .populate("payment");
+
+  return orders;
 };
 const deleteOrder = async (id, user) => {
   const order = await getOrderById(id);
@@ -45,4 +56,20 @@ const deleteOrder = async (id, user) => {
 
   return await orderModel.findByIdAndDelete(id);
 };
-export default { getOrders, createOrder, deleteOrder };
+
+const orderPayment = async (id, data) => {
+  const order = await getOrderById(id);
+return await payment.payViaKhalti({
+    amount: order.totalPrice,
+    purchaseOrderId: order.id,
+    purchaseOrderName: order.orderNumber,
+    customer: order.user,
+  });};
+
+export default {
+  getOrders,
+  createOrder,
+  deleteOrder,
+  orderPayment,
+  getOrdersByUser,
+};

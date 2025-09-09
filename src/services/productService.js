@@ -2,14 +2,29 @@ import { ADMIN } from "../constants/roles.js";
 import productModel from "../models/Product.js";
 import Product from "../models/Product.js";
 import uploadFile from "../utils/file.js";
+import { PROMPT_MESSAGE } from "../constants/promptMessage.js";
+import promptGemini from "../utils/gemini.js";
 
 const createProduct = async (data, files, createdBy) => {
+  const promptMessage = PROMPT_MESSAGE.PRODUCT_DESCRIPTION_PROMPT.replace(
+    "%s",
+    data.name
+  ).replace(
+    "%s",
+    data.brand
+  ).replace(
+    "%s",
+    data.category
+  );
+  const aiDescription = await promptGemini(promptMessage);
   const uploadedFiles = await uploadFile(files);
 
   const createdProduct = await productModel.create({
     ...data,
     createdBy,
+   description: data.description ?? aiDescription,
     imageUrls: uploadedFiles.map((item) => item?.url),
+   
   });
 
   return createdProduct;
@@ -78,7 +93,7 @@ const updateProduct = async (id, data, files, user) => {
       statusCode: 403,
       message: "Access denied.",
     };
-  }
+  }f
 
   const updateData = data;
 

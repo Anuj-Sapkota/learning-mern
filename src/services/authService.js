@@ -3,9 +3,13 @@ import bcrypt from "bcryptjs";
 
 const login = async (data) => {
   const user = await UserModel.findOne({ email: data.email });
+  if (!user)
+    throw {
+      message: "Incorrect email or password.",
+    };
   const isPasswordMatch = bcrypt.compareSync(data.password, user.password);
 
-  if (!user || !isPasswordMatch)
+  if (!isPasswordMatch)
     throw {
       message: "Incorrect email or password.",
     };
@@ -34,4 +38,8 @@ const register = async (data) => {
   delete userObj.password;
   return userObj;
 };
-export default { register, login };
+
+const forgotPassword = async (req, res) => {
+  return { message: "Forgot Password"};
+}
+export default { register, login, forgotPassword };
